@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do Web App</title>
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1f1f2e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .app {
+            background: #2c2c3e;
+            padding: 20px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            background: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #3a3a55;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li.completed span {
+            text-decoration: line-through;
+            color: lightgray;
+        }
+
+        .actions button {
+            margin-left: 5px;
+            background: #ff5722;
+        }
+
+        .actions button.edit {
+            background: #2196f3;
+        }
+
+        .actions button.done {
+            background: #9c27b0;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HTML -->
+<div class="app">
+    <h2>TO-DO WEB APP</h2>
+
+    <input type="text" id="taskText" placeholder="Enter task">
+    <input type="datetime-local" id="taskDate">
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+</div>
+
+<!-- JavaScript -->
+<script>
+    function addTask() {
+        let text = document.getElementById("taskText").value;
+        let date = document.getElementById("taskDate").value;
+
+        if (text === "") {
+            alert("Enter a task");
+            return;
+        }
+
+        let li = document.createElement("li");
+
+        let span = document.createElement("span");
+        span.innerHTML = text + (date ? "<br><small>" + date + "</small>" : "");
+
+        let actions = document.createElement("div");
+        actions.className = "actions";
+
+        let doneBtn = document.createElement("button");
+        doneBtn.className = "done";
+        doneBtn.innerText = "✓";
+        doneBtn.onclick = () => li.classList.toggle("completed");
+
+        let editBtn = document.createElement("button");
+        editBtn.className = "edit";
+        editBtn.innerText = "Edit";
+        editBtn.onclick = () => {
+            let newTask = prompt("Edit task", text);
+            if (newTask) span.innerHTML = newTask;
+        };
+
+        let deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "X";
+        deleteBtn.onclick = () => li.remove();
+
+        actions.append(doneBtn, editBtn, deleteBtn);
+        li.append(span, actions);
+
+        document.getElementById("taskList").appendChild(li);
+
+        document.getElementById("taskText").value = "";
+        document.getElementById("taskDate").value = "";
+    }
+</script>
+
+</body>
+</html>
